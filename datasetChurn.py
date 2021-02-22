@@ -35,7 +35,18 @@ dataset.loc[dataset['Genero'] == "Fem", "Genero"] = "Feminino"
 
 #      ***** Tratamento de Idade ******      #
 # Problema: Idades negativas, Idades Zeradas e Idades fora do comum (exemplo pessoas com 140 anos)
-print(dataset['Idade'].describe())
+# print(dataset['Idade'].describe())
 dataset.loc[dataset['Idade'] <= 0, "Idade"] = sts.median(dataset['Idade'])
 dataset.loc[dataset['Idade'] > 100, "Idade"] = sts.median(dataset['Idade'])
-print(dataset['Idade'].describe())
+# print(dataset['Idade'].describe())
+
+#      ***** TRATAMENTO DE DADOS DUPLICADOS *****      #
+dataset.drop_duplicates(subset="Id", keep='first', inplace=True)
+
+
+#     ***** TRATAMENTO DE SALÁRIO *****      #
+dataset['Salario'].fillna(sts.median(dataset['Salario']), inplace=True)
+print(sts.stdev(dataset['Salario']))
+
+
+
